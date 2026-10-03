@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Synk Clip — Reprodutor de Vídeo Gratuito</title>
+
+    <meta
+        name="description"
+        content="Synk Clip é um reprodutor de vídeo gratuito para Windows com reprodução, controle de volume e corte de clipes."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 0, 0, 0.12);
+            filter: blur(140px);
+            border-radius: 50%;
+            top: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        header {
+            width: 100%;
+            padding: 24px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .wolf {
+            font-size: 35px;
+            filter:
+                drop-shadow(0 0 5px red)
+                drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
+        }
+
+        .version {
+            color: #888;
+            font-size: 13px;
+        }
+
+        main {
+            width: 100%;
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 20px 100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 50px;
+            color: #ff4b4b;
+            background: rgba(255, 0, 0, 0.07);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: clamp(45px, 8vw, 85px);
+            line-height: 0.95;
+            font-weight: 900;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
+        }
+
+        h1 span {
+            color: #ff1a1a;
+            text-shadow:
+                0 0 10px rgba(255, 0, 0, 0.7),
+                0 0 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .subtitle {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #aaa;
+            font-size: 19px;
+            line-height: 1.6;
+        }
+
+        .download-area {
+            margin-top: 40px;
+        }
+
+        .download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 17px 35px;
+            border-radius: 10px;
+            background: #e50914;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 800;
+            box-shadow:
+                0 0 15px rgba(255, 0, 0, 0.4),
+                0 0 40px rgba(255, 0, 0, 0.15);
+            transition: 0.2s;
+        }
+
+        .download:hover {
+            transform: translateY(-3px);
+            background: #ff151f;
+            box-shadow:
+                0 0 20px rgba(255, 0, 0, 0.7),
+                0 0 50px rgba(255, 0, 0, 0.3);
+        }
+
+        .small-text {
+            color: #666;
+            font-size: 12px;
+            margin-top: 13px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 80px;
+        }
+
+        .feature {
+            padding: 25px 18px;
+            border: 1px solid #1c1c1c;
+            background: linear-gradient(
+                145deg,
+                #101010,
+                #080808
+            );
+            border-radius: 14px;
+            transition: 0.2s;
+        }
+
+        .feature:hover {
+            border-color: rgba(255, 0, 0, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .icon {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #151515;
+            color: #555;
+            font-size: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 20px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <div class="wolf">🐺</div>
+            <div>Synk Clip</div>
+        </div>
+
+        <div class="version">
+            Windows
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <div class="badge">
+                🐺 GRATUITO PARA WINDOWS
+            </div>
+
+            <h1>
+                Seu vídeo.<br>
+                Seu <span>controle.</span>
+            </h1>
+
+            <p class="subtitle">
+                Um reprodutor de vídeo rápido, simples e completo.
+                Reproduza seus vídeos, controle o volume e crie
+                seus próprios clipes com o Synk Clip.
+            </p>
+
+            <div class="download-area">
+
+                <!--
+                    MAIS TARDE VAMOS COLOCAR AQUI
+                    O LINK REAL DO NOSSO INSTALADOR.
+                -->
+
+                <a
+                    class="download"
+                    href="#"
+                    onclick="alert('O download estará disponível em breve!'); return false;"
+                >
+                    ⬇️
+                    BAIXAR SYNK CLIP
+                </a>
+
+                <div class="small-text">
+                    Windows 10 / 11 • Gratuito
+                </div>
+
+            </div>
+
+            <div class="features">
+
+                <div class="feature">
+                    <div class="icon">▶️</div>
+
+                    <h3>
+                        Reprodutor
+                    </h3>
+
+                    <p>
+                        Reproduza seus vídeos
+                        diretamente no Synk Clip.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <div class="icon">✂️</div>
+
+                    <h3>
+                        Corte clipes
+                    </h3>
+
+                    <p>
+                        Selecione os melhores
+                        momentos dos seus vídeos.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <div class="icon">📁</div>
+
+                    <h3>
+                        Biblioteca
+                    </h3>
+
+                    <p>
+                        Organize seus clipes
+                        de forma simples.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <div class="icon">🔊</div>
+
+                    <h3>
+                        Controle de áudio
+                    </h3>
+
+                    <p>
+                        Controle o volume
+                        diretamente pelo player.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        © 2026 Synk Clip — Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>
